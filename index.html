@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root {
     --honey:   #F5B800;
@@ -40,6 +41,74 @@
     color: var(--text);
     overflow-x: hidden;
     line-height: 1.6;
+  }
+
+  /* ── WAITLIST MODAL ── */
+  .wl-overlay {
+    position: fixed; inset: 0; background: rgba(18,23,61,0.7);
+    z-index: 2000; display: flex; align-items: center; justify-content: center;
+    padding: 20px; backdrop-filter: blur(4px);
+    opacity: 0; pointer-events: none; transition: opacity 0.25s;
+  }
+  .wl-overlay.open { opacity: 1; pointer-events: all; }
+  .wl-card {
+    background: var(--white); border-radius: 24px; padding: 40px;
+    width: 100%; max-width: 460px; box-shadow: var(--shadow-lg);
+    transform: translateY(20px); transition: transform 0.25s;
+    position: relative;
+  }
+  .wl-overlay.open .wl-card { transform: translateY(0); }
+  .wl-close {
+    position: absolute; top: 16px; right: 16px; background: none; border: none;
+    font-size: 1.4rem; cursor: pointer; color: var(--text-light); line-height: 1;
+  }
+  .wl-close:hover { color: var(--text); }
+  .wl-bee { font-size: 2.5rem; text-align: center; margin-bottom: 8px; }
+  .wl-title {
+    font-family: 'Fredoka One', cursive; font-size: 1.8rem;
+    color: var(--navy); text-align: center; margin-bottom: 6px;
+  }
+  .wl-sub {
+    font-size: 0.95rem; color: var(--text-mid); text-align: center;
+    margin-bottom: 28px; line-height: 1.6;
+  }
+  .wl-field { margin-bottom: 14px; }
+  .wl-field label {
+    display: block; font-size: 0.8rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--text-mid); margin-bottom: 6px;
+  }
+  .wl-field input {
+    width: 100%; padding: 13px 16px; border: 2px solid #E8E8F0;
+    border-radius: 12px; font-family: 'Nunito', sans-serif;
+    font-size: 1rem; font-weight: 600; outline: none;
+    transition: border-color 0.2s; color: var(--text);
+  }
+  .wl-field input:focus { border-color: var(--honey); }
+  .wl-submit {
+    width: 100%; padding: 15px; background: var(--honey); color: var(--navy);
+    border: none; border-radius: 50px; font-family: 'Nunito', sans-serif;
+    font-weight: 800; font-size: 1.05rem; cursor: pointer; margin-top: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(245,184,0,0.4);
+  }
+  .wl-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(245,184,0,0.55); }
+  .wl-submit:disabled { opacity: 0.6; cursor: default; transform: none; }
+  .wl-note {
+    font-size: 0.78rem; color: var(--text-light); text-align: center;
+    margin-top: 14px;
+  }
+  .wl-success { text-align: center; padding: 20px 0; }
+  .wl-success-ico { font-size: 3.5rem; margin-bottom: 12px; }
+  .wl-success-title {
+    font-family: 'Fredoka One', cursive; font-size: 1.6rem;
+    color: var(--navy); margin-bottom: 8px;
+  }
+  .wl-success-msg { font-size: 0.95rem; color: var(--text-mid); line-height: 1.6; }
+  .wl-error {
+    background: #FEF2F2; border: 1.5px solid #FECACA; border-radius: 10px;
+    padding: 10px 14px; font-size: 0.85rem; color: #DC2626;
+    margin-top: 10px; display: none;
   }
 
   /* ── UTILITY ── */
@@ -583,8 +652,8 @@
       <li><a href="#pricing">Pricing</a></li>
     </ul>
     <div class="nav-cta">
-      <a href="https://brightbee.vercel.app" class="btn btn-ghost" style="padding:10px 20px;font-size:0.9rem;">Log in</a>
-      <a href="https://brightbee.vercel.app" class="btn btn-primary" style="padding:10px 20px;font-size:0.9rem;">Try for free →</a>
+      <a href="https://app.brightbee.com.au" class="btn btn-ghost" style="padding:10px 20px;font-size:0.9rem;">Log in</a>
+      <button onclick="openWaitlist()" class="btn btn-primary" style="padding:10px 20px;font-size:0.9rem;">Join the waitlist →</button>
     </div>
     <button class="nav-toggle" aria-label="Menu" id="navToggle">
       <span></span><span></span><span></span>
@@ -623,9 +692,9 @@
           BrightBee turns the Australian curriculum into an adventure kids actually want to do. Lessons, quizzes, rewards and a growing island — all for Years 3 to 12.
         </p>
         <div class="hero-actions">
-          <a href="https://brightbee.vercel.app" class="btn btn-primary btn-lg">
-            🐝 &nbsp; Start for free
-          </a>
+          <button onclick="openWaitlist()" class="btn btn-primary btn-lg">
+            🐝 &nbsp; Join the waitlist
+          </button>
           <a href="#how" class="btn btn-ghost btn-lg">See how it works</a>
         </div>
         <div class="hero-stats">
@@ -888,7 +957,7 @@
           <li><span class="check">✓</span> 3 practice attempts/day</li>
           <li><span class="check">✓</span> Daily streak tracking</li>
         </ul>
-        <a href="https://brightbee.vercel.app" class="btn btn-dark price-cta">Get started free</a>
+        <button onclick="openWaitlist()" class="btn btn-dark price-cta">Join the waitlist</button>
       </div>
 
       <div class="price-card popular reveal reveal-delay-1">
@@ -905,7 +974,7 @@
           <li><span class="check">✓</span> All themes &amp; unlockables</li>
           <li><span class="check">✓</span> Progress reports</li>
         </ul>
-        <a href="https://brightbee.vercel.app" class="btn btn-primary price-cta">Start free trial →</a>
+        <button onclick="openWaitlist()" class="btn btn-primary price-cta">Join the waitlist →</button>
       </div>
 
       <div class="price-card reveal reveal-delay-2">
@@ -920,7 +989,7 @@
           <li><span class="check">✓</span> All year levels</li>
           <li><span class="check">✓</span> Priority support</li>
         </ul>
-        <a href="mailto:hello@brightbee.com.au" class="btn btn-dark price-cta">Contact us</a>
+        <a href="/cdn-cgi/l/email-protection#59313c353536193b2b303e312d3b3c3c773a363477382c" class="btn btn-dark price-cta">Contact us</a>
       </div>
 
     </div>
@@ -981,13 +1050,47 @@
       <h2 class="cta-headline">Ready to watch them <span>thrive?</span></h2>
       <p class="cta-sub">Join families across Australia who made learning something their kids actually look forward to.</p>
       <div class="cta-actions">
-        <a href="https://brightbee.vercel.app" class="btn btn-primary btn-lg">Start for free — no credit card</a>
+        <button onclick="openWaitlist()" class="btn btn-primary btn-lg">🐝 &nbsp; Join the waitlist</button>
         <a href="#pricing" class="btn btn-ghost btn-lg">See all plans</a>
       </div>
-      <p class="cta-note">Free plan available forever · Cancel premium anytime · Built in Australia 🇦🇺</p>
+      <p class="cta-note">Be first when we launch · No credit card needed · Built in Australia 🇦🇺</p>
     </div>
   </div>
 </section>
+
+<!-- ─────────── WAITLIST MODAL ─────────── -->
+<div class="wl-overlay" id="wlOverlay" onclick="handleOverlayClick(event)">
+  <div class="wl-card">
+    <button class="wl-close" onclick="closeWaitlist()">✕</button>
+
+    <!-- Form state -->
+    <div id="wlForm">
+      <div class="wl-bee">🐝</div>
+      <div class="wl-title">Get early access</div>
+      <p class="wl-sub">Be the first to know when BrightBee launches. No spam — just one email when we're ready.</p>
+      <div class="wl-field">
+        <label for="wlName">Your name (optional)</label>
+        <input type="text" id="wlName" placeholder="e.g. Sarah" autocomplete="name"/>
+      </div>
+      <div class="wl-field">
+        <label for="wlEmail">Email address *</label>
+        <input type="email" id="wlEmail" placeholder="you@example.com" autocomplete="email"/>
+      </div>
+      <div class="wl-error" id="wlError">Please enter a valid email address.</div>
+      <button class="wl-submit" id="wlSubmit" onclick="submitWaitlist()">Count me in! 🚀</button>
+      <p class="wl-note">🔒 Your details are never shared or sold.</p>
+    </div>
+
+    <!-- Success state -->
+    <div id="wlSuccess" style="display:none;">
+      <div class="wl-success">
+        <div class="wl-success-ico">🎉</div>
+        <div class="wl-success-title">You're on the list!</div>
+        <p class="wl-success-msg">We'll email you as soon as BrightBee is ready. In the meantime, feel free to explore the app at <a href="https://app.brightbee.com.au" style="color:var(--honey);font-weight:800;">app.brightbee.com.au</a>.</p>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ─────────── FOOTER ─────────── -->
 <footer>
@@ -1027,7 +1130,7 @@
         <h4>Company</h4>
         <ul>
           <li><a href="#">About</a></li>
-          <li><a href="mailto:hello@brightbee.com.au">Contact</a></li>
+          <li><a href="/cdn-cgi/l/email-protection#046c6168686b4466766d636c706661612a676b692a6571">Contact</a></li>
           <li><a href="#">Privacy policy</a></li>
           <li><a href="#">Terms of use</a></li>
         </ul>
@@ -1045,7 +1148,7 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ── Sticky nav
   const nav = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
@@ -1079,13 +1182,62 @@
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const target = document.querySelector(a.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
     });
   });
-</script>
 
-</body>
-</html>
+  // ── Waitlist ──
+  const SUPABASE_URL = 'https://uypzmabuomhbieiuekpr.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5cHptYWJ1b21oYmllaXVla3ByIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NTkxOTMsImV4cCI6MjA5MDQzNTE5M30.9a-w2naosQRV9FXDH-ltTTVKIIpQaUeqG0KopXRRjtE';
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  function openWaitlist() {
+    document.getElementById('wlOverlay').classList.add('open');
+    document.getElementById('wlEmail').focus();
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeWaitlist() {
+    document.getElementById('wlOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('wlOverlay')) closeWaitlist();
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeWaitlist();
+  });
+
+  async function submitWaitlist() {
+    const email = document.getElementById('wlEmail').value.trim();
+    const name  = document.getElementById('wlName').value.trim();
+    const errEl = document.getElementById('wlError');
+    const btn   = document.getElementById('wlSubmit');
+
+    // Basic validation
+    errEl.style.display = 'none';
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errEl.style.display = 'block';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+
+    const { error } = await sb.from('waitlist').insert({ name: name || null, email });
+
+    if (error && error.code !== '23505') {
+      // 23505 = duplicate email — treat as success so we don't reveal if email exists
+      btn.disabled = false;
+      btn.textContent = 'Count me in! 🚀';
+      errEl.textContent = 'Something went wrong. Please try again.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    // Show success
+    document.getElementById('wlForm').style.display = 'none';
+    document.getElementById('wlSuccess').style.display = 'block';
+  }
