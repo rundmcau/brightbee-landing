@@ -1226,7 +1226,7 @@
     btn.disabled = true;
     btn.textContent = 'Saving...';
 
-    const { error } = await sb.from('waitlist').insert({ name: name || null, email });
+    const { error } = await sb.from('waitlist').insert({ name: name || null, email: email.toLowerCase(), source: 'landing_page' });
 
     if (error && error.code !== '23505') {
       // 23505 = duplicate email — treat as success so we don't reveal if email exists
