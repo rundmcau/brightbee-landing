@@ -634,6 +634,30 @@
     .hero-stats { gap: 20px; }
     .footer-grid { grid-template-columns: 1fr; }
   }
+
+  /* ── PROMO / CONSENT ── */
+  .wl-consent {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-top: 16px;
+  }
+  .wl-consent input[type="checkbox"] {
+    width: 18px; height: 18px; flex-shrink: 0; margin-top: 3px;
+    accent-color: var(--honey); cursor: pointer;
+  }
+  .wl-consent label {
+    font-size: 0.88rem; color: var(--text-mid); cursor: pointer;
+    line-height: 1.5; font-weight: 600;
+  }
+  .wl-privacy {
+    font-size: 0.78rem; color: var(--text-light); margin-top: 14px;
+    line-height: 1.55; text-align: center;
+  }
+  .promo-code-badge {
+    display: none; background: #F0FDF4; border: 1.5px solid #86EFAC;
+    border-radius: 10px; padding: 10px 14px; font-size: 0.85rem;
+    color: #15803D; margin-top: 10px; font-weight: 700; text-align: center;
+  }
+  .promo-code-badge.visible { display: block; }
 </style>
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -698,6 +722,7 @@
           </button>
           <a href="#how" class="btn btn-ghost btn-lg">See how it works</a>
         </div>
+        <p style="font-size:0.82rem;color:rgba(255,255,255,0.45);margin-top:12px;">Founding families: use code <strong style="color:var(--honey)">BRIGHTBEE49</strong> to unlock founding family pricing</p>
         <div class="hero-stats">
           <div>
             <div class="stat-num">2,700+</div>
@@ -781,7 +806,7 @@
     <div class="trust-item"><span class="trust-icon">📅</span> Syncs to phone calendar</div>
     <div class="trust-item"><span class="trust-icon">📱</span> Works on any device</div>
     <div class="trust-item"><span class="trust-icon">🔒</span> Safe for kids</div>
-    <div class="trust-item"><span class="trust-icon">🇦🇺</span> Built in Melbourne, VIC</div>
+    <div class="trust-item"><span class="trust-icon">🇦🇺</span> Built in Melbourne, Victoria</div>
   </div>
 </div>
 
@@ -1002,6 +1027,18 @@
       <h2 class="section-title">Less than a coffee a week</h2>
       <p class="section-sub">No hidden fees. Cancel anytime. All plans include the island game, streaks and progress tracking.</p>
     </div>
+
+    <div class="reveal" style="text-align:center;margin-bottom:40px;">
+      <div style="display:inline-flex;align-items:center;gap:16px;background:var(--cream-dark);border:2px solid var(--honey);border-radius:20px;padding:16px 28px;max-width:680px;justify-content:center;flex-wrap:wrap;">
+        <span style="font-size:1.6rem">🎉</span>
+        <div style="text-align:left">
+          <div style="font-family:'Fredoka One',cursive;font-size:1.05rem;color:var(--navy)">Founding family offer</div>
+          <div style="font-size:0.88rem;color:var(--text-mid)">Use code <strong style="color:var(--honey-dark)">BRIGHTBEE49</strong> to lock in founding family pricing when we launch.</div>
+        </div>
+        <button onclick="openWaitlist('BRIGHTBEE49')" class="btn btn-primary" style="padding:11px 22px;font-size:0.88rem;white-space:nowrap;">Claim offer →</button>
+      </div>
+    </div>
+
     <div class="pricing-grid">
 
       <div class="price-card reveal">
@@ -1125,7 +1162,7 @@
     <div id="wlForm">
       <div class="wl-bee">🐝</div>
       <div class="wl-title">Get early access</div>
-      <p class="wl-sub">Be the first to know when BrightBee launches. No spam — just one email when we're ready.</p>
+      <p class="wl-sub">Enter your email to continue. Have a promo code? Enter it below to unlock founding family pricing.</p>
       <div class="wl-field">
         <label for="wlName">Your name (optional)</label>
         <input type="text" id="wlName" placeholder="e.g. Sarah" autocomplete="name"/>
@@ -1134,9 +1171,18 @@
         <label for="wlEmail">Email address *</label>
         <input type="email" id="wlEmail" placeholder="you@example.com" autocomplete="email"/>
       </div>
+      <div class="wl-field">
+        <label for="wlPromo">Promo code (optional)</label>
+        <input type="text" id="wlPromo" placeholder="e.g. BRIGHTBEE49" autocomplete="off" oninput="handlePromoInput(this)" style="letter-spacing:0.04em;"/>
+      </div>
+      <div class="promo-code-badge" id="wlPromoBadge">🎉 Founding family pricing unlocked!</div>
+      <div class="wl-consent">
+        <input type="checkbox" id="wlMarketing" name="wlMarketing"/>
+        <label for="wlMarketing">Send me BrightBee updates, learning tips and special offers by email</label>
+      </div>
       <div class="wl-error" id="wlError">Please enter a valid email address.</div>
       <button class="wl-submit" id="wlSubmit" onclick="submitWaitlist()">Count me in! 🚀</button>
-      <p class="wl-note">🔒 Your details are never shared or sold.</p>
+      <p class="wl-privacy">We'll use your email for your account, receipts, and important product updates. You can unsubscribe from marketing emails anytime.</p>
     </div>
 
     <!-- Success state -->
@@ -1144,7 +1190,7 @@
       <div class="wl-success">
         <div class="wl-success-ico">🎉</div>
         <div class="wl-success-title">You're on the list!</div>
-        <p class="wl-success-msg">We'll email you as soon as BrightBee is ready. In the meantime, feel free to explore the app at <a href="https://app.brightbee.com.au" style="color:var(--honey);font-weight:800;">app.brightbee.com.au</a>.</p>
+        <p class="wl-success-msg" id="wlSuccessMsg">We'll email you as soon as BrightBee is ready. In the meantime, feel free to explore the app at <a href="https://app.brightbee.com.au" style="color:var(--honey);font-weight:800;">app.brightbee.com.au</a>.</p>
       </div>
     </div>
   </div>
@@ -1196,7 +1242,7 @@
     </div>
     <div class="footer-bottom">
       <div class="footer-copy">© 2025 BrightBee. All rights reserved.</div>
-      <div class="au-badge">🇦🇺 &nbsp; Made in Bendigo, Victoria</div>
+      <div class="au-badge">🇦🇺 &nbsp; Made in Melbourne, Victoria</div>
       <div class="footer-legal">
         <a href="#">Privacy</a>
         <a href="#">Terms</a>
@@ -1249,10 +1295,15 @@
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5cHptYWJ1b21oYmllaXVla3ByIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NTkxOTMsImV4cCI6MjA5MDQzNTE5M30.9a-w2naosQRV9FXDH-ltTTVKIIpQaUeqG0KopXRRjtE';
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  function openWaitlist() {
+  function openWaitlist(promoCode) {
     document.getElementById('wlOverlay').classList.add('open');
     document.getElementById('wlEmail').focus();
     document.body.style.overflow = 'hidden';
+    if (promoCode) {
+      const promoInput = document.getElementById('wlPromo');
+      promoInput.value = promoCode.toUpperCase();
+      handlePromoInput(promoInput);
+    }
   }
 
   function closeWaitlist() {
@@ -1264,19 +1315,40 @@
     if (e.target === document.getElementById('wlOverlay')) closeWaitlist();
   }
 
+  function handlePromoInput(input) {
+    input.value = input.value.toUpperCase();
+    const badge = document.getElementById('wlPromoBadge');
+    const btn   = document.getElementById('wlSubmit');
+    if (input.value === 'BRIGHTBEE49') {
+      badge.classList.add('visible');
+      btn.textContent = 'Unlock founding pricing →';
+    } else {
+      badge.classList.remove('visible');
+      if (!input.value) btn.textContent = 'Count me in! 🚀';
+    }
+  }
+
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeWaitlist();
   });
 
   async function submitWaitlist() {
-    const email = document.getElementById('wlEmail').value.trim();
-    const name  = document.getElementById('wlName').value.trim();
-    const errEl = document.getElementById('wlError');
-    const btn   = document.getElementById('wlSubmit');
+    const email    = document.getElementById('wlEmail').value.trim();
+    const name     = document.getElementById('wlName').value.trim();
+    const promo    = document.getElementById('wlPromo').value.trim().toUpperCase();
+    const marketing = document.getElementById('wlMarketing').checked;
+    const errEl    = document.getElementById('wlError');
+    const btn      = document.getElementById('wlSubmit');
 
-    // Basic validation
     errEl.style.display = 'none';
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errEl.textContent = 'Please enter a valid email address.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    if (promo && promo !== 'BRIGHTBEE49') {
+      errEl.textContent = "That promo code doesn’t look right. Try BRIGHTBEE49.";
       errEl.style.display = 'block';
       return;
     }
@@ -1284,19 +1356,31 @@
     btn.disabled = true;
     btn.textContent = 'Saving...';
 
-    const { error } = await sb.from('waitlist').insert({ name: name || null, email: email.toLowerCase(), source: 'landing_page' });
+    const payload = {
+      name: name || null,
+      email: email.toLowerCase(),
+      source: 'landing_page',
+      marketing_consent: marketing,
+      consent_timestamp: new Date().toISOString(),
+      consent_source: 'waitlist_modal',
+    };
+    if (promo) payload.promo_code = promo;
+
+    const { error } = await sb.from('waitlist').insert(payload);
 
     if (error && error.code !== '23505') {
-      // 23505 = duplicate email — treat as success so we don't reveal if email exists
       btn.disabled = false;
-      btn.textContent = 'Count me in! 🚀';
+      btn.textContent = promo === 'BRIGHTBEE49' ? 'Unlock founding pricing →' : 'Count me in! 🚀';
       errEl.textContent = 'Something went wrong. Please try again.';
       errEl.style.display = 'block';
       return;
     }
 
-    // Show success
     document.getElementById('wlForm').style.display = 'none';
+    if (promo === 'BRIGHTBEE49') {
+      document.getElementById('wlSuccessMsg').innerHTML =
+        'Your founding family pricing is locked in. We’ll email you at launch with everything you need to get started.';
+    }
     document.getElementById('wlSuccess').style.display = 'block';
   }
 </script>
