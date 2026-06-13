@@ -658,6 +658,18 @@
     color: #15803D; margin-top: 10px; font-weight: 700; text-align: center;
   }
   .promo-code-badge.visible { display: block; }
+
+  /* ── PRE-RELEASE PRICING ── */
+  .price-prerelease {
+    background: rgba(245,184,0,0.15); border: 1px solid rgba(245,184,0,0.35);
+    border-radius: 8px; padding: 8px 12px; font-size: 0.82rem;
+    color: var(--honey); font-weight: 700; margin-bottom: 20px; text-align: center;
+  }
+  .pricing-disclaimer {
+    text-align: center; font-size: 0.85rem; color: var(--text-mid);
+    margin-top: 28px; max-width: 600px; margin-left: auto; margin-right: auto;
+    line-height: 1.6; padding: 0 16px;
+  }
 </style>
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -678,7 +690,7 @@
     </ul>
     <div class="nav-cta">
       <a href="https://app.brightbee.com.au" class="btn btn-ghost" style="padding:10px 20px;font-size:0.9rem;">Log in</a>
-      <button onclick="openWaitlist()" class="btn btn-primary" style="padding:10px 20px;font-size:0.9rem;">Join the waitlist →</button>
+      <button onclick="openWaitlist()" class="btn btn-primary" style="padding:10px 20px;font-size:0.9rem;">Get early access →</button>
     </div>
     <button class="nav-toggle" aria-label="Menu" id="navToggle">
       <span></span><span></span><span></span>
@@ -716,13 +728,16 @@
         <p class="hero-sub">
           BrightBee turns the Australian curriculum into an adventure kids actually want to do. Lessons, quizzes, rewards, a growing island and a personal study planner that syncs to your phone — all for Years 3 to 12.
         </p>
+        <div style="background:rgba(245,184,0,0.1);border:1px solid rgba(245,184,0,0.25);border-radius:12px;padding:12px 16px;margin-bottom:20px;font-size:0.87rem;color:rgba(255,255,255,0.72);line-height:1.55;">
+          <strong style="color:var(--honey)">Pre-release:</strong> BrightBee is currently in pre-release. Families get early access at a lower founding price while we continue improving the experience.
+        </div>
         <div class="hero-actions">
           <button onclick="openWaitlist()" class="btn btn-primary btn-lg">
-            🐝 &nbsp; Join the waitlist
+            🐝 &nbsp; Start pre-release access
           </button>
           <a href="#how" class="btn btn-ghost btn-lg">See how it works</a>
         </div>
-        <p style="font-size:0.82rem;color:rgba(255,255,255,0.45);margin-top:12px;">Founding families: use code <strong style="color:var(--honey)">BRIGHTBEE49</strong> to unlock founding family pricing</p>
+        <p style="font-size:0.82rem;color:rgba(255,255,255,0.45);margin-top:12px;">Pre-release offer: use code <strong style="color:var(--honey)">BRIGHTBEE49</strong> for founding family pricing</p>
         <div class="hero-stats">
           <div>
             <div class="stat-num">2,700+</div>
@@ -1032,8 +1047,8 @@
       <div style="display:inline-flex;align-items:center;gap:16px;background:var(--cream-dark);border:2px solid var(--honey);border-radius:20px;padding:16px 28px;max-width:680px;justify-content:center;flex-wrap:wrap;">
         <span style="font-size:1.6rem">🎉</span>
         <div style="text-align:left">
-          <div style="font-family:'Fredoka One',cursive;font-size:1.05rem;color:var(--navy)">Founding family offer</div>
-          <div style="font-size:0.88rem;color:var(--text-mid)">Use code <strong style="color:var(--honey-dark)">BRIGHTBEE49</strong> to lock in founding family pricing when we launch.</div>
+          <div style="font-family:'Fredoka One',cursive;font-size:1.05rem;color:var(--navy)">Pre-release founding family offer</div>
+          <div style="font-size:0.88rem;color:var(--text-mid)">Use code <strong style="color:var(--honey-dark)">BRIGHTBEE49</strong> to get early access for $49/year before BrightBee officially launches.</div>
         </div>
         <button onclick="openWaitlist('BRIGHTBEE49')" class="btn btn-primary" style="padding:11px 22px;font-size:0.88rem;white-space:nowrap;">Claim offer →</button>
       </div>
@@ -1052,14 +1067,15 @@
           <li><span class="check">✓</span> 3 practice attempts/day</li>
           <li><span class="check">✓</span> Daily streak tracking</li>
         </ul>
-        <button onclick="openWaitlist()" class="btn btn-dark price-cta">Join the waitlist</button>
+        <a href="https://app.brightbee.com.au" class="btn btn-dark price-cta">Get started free</a>
       </div>
 
       <div class="price-card popular reveal reveal-delay-1">
         <div class="popular-badge">🔥 Most popular</div>
         <div class="price-plan" style="color:rgba(255,255,255,0.5);">Family</div>
         <div class="price-amount">$12.99</div>
-        <div class="price-period">/ month · or $129/year (save 2 months)</div>
+        <div class="price-period">/ month · or $129/year</div>
+        <div class="price-prerelease">🎉 Pre-release offer: $49/year with code BRIGHTBEE49</div>
         <div class="price-desc">Everything your family needs, for less than a trip to the school canteen.</div>
         <ul class="price-features">
           <li><span class="check">✓</span> All year levels (3–12)</li>
@@ -1069,7 +1085,7 @@
           <li><span class="check">✓</span> All themes &amp; unlockables</li>
           <li><span class="check">✓</span> Progress reports</li>
         </ul>
-        <button onclick="openWaitlist()" class="btn btn-primary price-cta">Join the waitlist →</button>
+        <button onclick="openWaitlist()" class="btn btn-primary price-cta">Get early access →</button>
       </div>
 
       <div class="price-card reveal reveal-delay-2">
@@ -1088,6 +1104,7 @@
       </div>
 
     </div>
+    <p class="pricing-disclaimer reveal">BrightBee is in pre-release. Core learning features are available now, while Bee World and some reward features are still being improved.</p>
   </div>
 </section>
 
@@ -1143,12 +1160,12 @@
     <div class="cta-content reveal">
       <div style="font-size:3rem;margin-bottom:16px;">🐝</div>
       <h2 class="cta-headline">Ready to watch them <span>thrive?</span></h2>
-      <p class="cta-sub">Join families across Australia who made learning something their kids actually look forward to.</p>
+      <p class="cta-sub">Join families across Australia already using BrightBee during pre-release — at founding family pricing.</p>
       <div class="cta-actions">
-        <button onclick="openWaitlist()" class="btn btn-primary btn-lg">🐝 &nbsp; Join the waitlist</button>
+        <button onclick="openWaitlist()" class="btn btn-primary btn-lg">🐝 &nbsp; Get early access</button>
         <a href="#pricing" class="btn btn-ghost btn-lg">See all plans</a>
       </div>
-      <p class="cta-note">Be first when we launch · No credit card needed · Built in Australia 🇦🇺</p>
+      <p class="cta-note">Start learning today · No lock-in · Built in Australia 🇦🇺</p>
     </div>
   </div>
 </section>
